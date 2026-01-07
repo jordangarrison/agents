@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "jagents",
-      "source": ".",
+      "source": "./",
       "description": "Personal micro agents for productivity workflows"
     }
   ]
