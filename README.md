@@ -30,17 +30,18 @@ This repository is my personal collection of productivity agents - my "agent dot
 ### Install the Plugin
 
 ```bash
-# Clone the repository
-git clone https://github.com/jordangarrison/agents.git
+# Add the marketplace
+/plugin marketplace add jordangarrison/agents
 
 # Install the plugin
-claude plugin install /path/to/agents
+/plugin install jagents
 ```
 
-Or run directly without installing:
+Or install from a local clone:
 
 ```bash
-claude --plugin-dir /path/to/agents
+git clone https://github.com/jordangarrison/agents.git ~/agents
+claude plugin install ~/agents
 ```
 
 ### Set Up Todoist

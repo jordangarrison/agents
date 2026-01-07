@@ -1,0 +1,10 @@
+{
+  "name": "jordangarrison-agents",
+  "description": "Personal micro agents for productivity - task management, backlog grooming, and more",
+  "plugins": [
+    {
+      "name": "jagents",
+      "path": "."
+    }
+  ]
+}
