@@ -1,0 +1,11 @@
+{
+  "name": "agents",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "todoist": "bun run packages/todoist/src/index.ts",
+    "jira": "bun run packages/jira/src/index.ts"
+  }
+}

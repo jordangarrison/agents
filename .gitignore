@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Bun
+bun.lockb
+
+# Environment
+.env
+.env.local
+
+# Build output
+dist/
+*.tsbuildinfo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Nix
+result
+
+# direnv
+.direnv/

@@ -1,0 +1,17 @@
+{
+  "name": "@agents/jira",
+  "version": "0.1.0",
+  "description": "Jira backlog micro agent",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@agents/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
