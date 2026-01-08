@@ -35,14 +35,16 @@ Build JQL query:
 
 **If `--jql` provided**: Use custom JQL as base, still apply project filter
 
-**Otherwise, build default**:
+**Otherwise, build default** (single query only):
 ```
 project = KEY
-AND resolution = Unresolved
-AND status NOT IN (Done, Closed, Resolved)
+AND statusCategory != Done
 AND sprint is EMPTY
 AND created > -1y
+ORDER BY updated ASC
 ```
+
+Note: Use `statusCategory != Done` instead of specific status names - this works across all Jira configurations regardless of custom status names.
 
 **Apply optional filters**:
 - `--board <id>`: Use board's filter - fetch board config first, or add `AND "Board" = <id>` if supported
@@ -52,62 +54,114 @@ AND created > -1y
 - **low-priority**: `AND priority in (Low, Lowest)`
 - **custom JQL fragment**: Append with AND
 
-Order by: `ORDER BY updated ASC` (oldest activity first)
+**Important**: Run only ONE search query. Do not run a separate count query first.
 
-### 2. Discover Closure Transitions
+### 2. Select Closure Transition and Resolution
 
-Use `getTransitionsForJiraIssue` on the first ticket to find available closure transitions:
-- Look for transitions to statuses like "Won't Do", "Closed", "Done", "Cancelled"
-- Present available options to user: "Which closure status? (1) Won't Do (2) Done..."
-- Remember selection for batch
+Before processing batches, gather options and prompt user:
 
-### 3. Interactive Review Loop
+1. **Get available transitions** using `getTransitionsForJiraIssue` on first ticket
+   - Look for closure transitions (to statuses like "Done", "Closed", "Cancelled")
+   - Note which transitions have required fields (like resolution)
 
-Present tickets in batches of 10:
+2. **Get available resolutions** from the transition metadata or project config
+   - Use `getJiraIssueTypeMetaWithFields` to find allowed resolution values
+   - Or extract from transition's `fields.resolution.allowedValues`
 
-| # | Key | Type | Priority | Summary (truncated) | Updated |
-|---|-----|------|----------|---------------------|---------|
+3. **Prompt user for transition** using `AskUserQuestion`:
+   - Question: "Which transition should be used to close tickets?"
+   - Options: List available transitions from step 1
 
-Prompt: `Enter numbers to close (e.g., 1,3,5), 'all', 'none', or 'q' to quit:`
+4. **Prompt user for resolution** using `AskUserQuestion`:
+   - Question: "What resolution should be set for closed tickets?"
+   - Options: List available resolutions from step 2 (e.g., "Won't Do", "Duplicate", "Done")
+   - Default suggestion: "Won't Do" if available
 
-Track decisions across batches.
+5. **Remember selections** for all batches in the session
 
-### 4. Execute Closures
+When executing transitions, set both the status AND resolution:
+```
+transitionJiraIssue(issueKey, {
+  transition: { id: selectedTransitionId },
+  fields: { resolution: { name: selectedResolution } }
+})
+```
 
-After review is complete (user quits or no more tickets):
+### 3. Batch Review + Transition Loop
 
-1. Show summary: "Ready to close X tickets with status 'Won't Do'"
-2. List the tickets to be closed
-3. Ask for final confirmation: "Proceed? (y/n)"
-4. If `--dry-run`, skip execution and just show what would happen
-5. Execute transitions using `transitionJiraIssue`
-6. Report results: "Closed X tickets, Y failed"
+Process tickets in batches of 5, transitioning each batch before moving to the next:
+
+**For each batch:**
+
+1. **Fetch full details** for each ticket using `getJiraIssue`:
+   - Summary and description (first 200 chars)
+   - Type, priority, status
+   - Reporter and assignee
+   - Created date and last updated
+   - Comment count
+   - Linked issues count
+   - Labels
+
+2. **Present ticket details** one at a time or as a group with rich context:
+
+```
+## PROJ-123 (Bug, Low Priority)
+**Fix alignment issue on mobile nav**
+
+> The hamburger menu is offset by 2px on iOS devices when...
+
+| Created | Updated | Reporter | Comments | Links |
+|---------|---------|----------|----------|-------|
+| 8 months ago | 3 months ago | jsmith | 2 | 1 |
+
+Labels: `mobile`, `css`
+```
+
+3. **Use AskUserQuestion with multi-select** to pick tickets to close:
+   - Each option shows: `PROJ-123: Fix alignment issue... (Bug, 8mo old)`
+   - User checks boxes for tickets to close
+   - Options: individual tickets + "Skip all"
+
+4. **Execute transitions immediately** for selected tickets in this batch
+   - Report success/failure for each
+   - If `--dry-run`, show what would happen but don't execute
+
+5. **Ask to continue** to next batch or quit
+
+### 4. Final Summary
+
+After all batches (or user quits):
+```
+Session complete:
+- Reviewed: 25 tickets
+- Closed: 12 tickets (Won't Do)
+- Skipped: 13 tickets
+- Failed: 0
+```
 
 ## Presentation
 
-### During Review
+### Ticket Detail View
 ```
-Reviewing 47 backlog items for PROJECT (stale: not updated in 30+ days)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROJ-123 | Bug | Low Priority | Unassigned
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Fix alignment issue on mobile nav
 
-Batch 1 of 5:
-| # | Key      | Type | Pri  | Summary                    | Updated    |
-|---|----------|------|------|----------------------------|------------|
-| 1 | PROJ-123 | Bug  | Low  | Fix alignment issue...     | 2024-03-15 |
-| 2 | PROJ-456 | Task | Med  | Update documentation...    | 2024-02-28 |
-...
+The hamburger menu is offset by 2px on iOS devices when
+the viewport is less than 375px wide. This causes...
 
-Enter numbers to close (1,3,5), 'all', 'none', or 'q' to quit:
+Created: Mar 2024 (8 months ago) by jsmith
+Updated: Jun 2024 (3 months ago)
+Comments: 2 | Links: 1 | Labels: mobile, css
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-### Final Summary
-```
-Ready to close 12 tickets with status "Won't Do":
-- PROJ-123: Fix alignment issue...
-- PROJ-456: Update documentation...
-...
-
-Proceed? (y/n):
-```
+### Batch Selector
+Use `AskUserQuestion` with `multiSelect: true`:
+- Question: "Which tickets should be closed?"
+- Options show key + summary + age for quick scanning
+- User selects multiple, then transitions happen immediately
 
 ## Safety Features
 
