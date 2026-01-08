@@ -1,0 +1,38 @@
+{
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "mcp__atlassian__get*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__atlassian__search*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__atlassian__lookup*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__find-*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__get-*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__fetch-*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__user-info",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__search",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      }
+    ]
+  }
+}
