@@ -64,11 +64,21 @@ This skill follows GTD (Getting Things Done) methodology:
 - **Someday projects** for deferred items: Personal Someday, Work Someday, etc.
 - **Lists** for reference material: Books, Articles, Tools, etc.
 
-### Labels
-- **Time estimates**: `time:5m`, `time:15m`, `time:30m`, `time:60m`, `time:+90m`
-- **Context**: `at:computer`, `at:ipad`, `house`
-- **Actions**: `next`, `followup`, `clarify`, `delegate`, `urgent`, `important`
-- **People**: Tag people involved for easy filtering
+### Labels (Complete Taxonomy)
+
+Every task should have labels from these categories for effective filtering:
+
+| Category | Labels | Purpose |
+|----------|--------|---------|
+| **Time** | `time:5m`, `time:15m`, `time:30m`, `time:60m`, `time:+90m` | Batch tasks by available time |
+| **Context** | `at:computer`, `at:ipad`, `house` | Location-based filtering |
+| **Energy** | `energy:high`, `energy:medium`, `energy:low` | Match tasks to mental state |
+| **Work Type** | `deep_work`, `shallow_work` | Focus vs routine tasks |
+| **Priority** | `urgent`, `important` | Eisenhower matrix (combine in filters) |
+| **Actions** | `next`, `followup`, `clarify`, `delegate`, `review` | GTD action types |
+| **People** | Person names as labels | Track delegation/waiting |
+| **Filing** | `to-file:obsidian`, `to-file:jira` | Cross-system integration |
+| **Life Goals** | `+LG: Lead others well`, `+LG: Be a Tough MF`, etc. | Values alignment |
 
 ### Review
 - Daily: Check today's tasks

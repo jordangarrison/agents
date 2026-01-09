@@ -58,12 +58,21 @@ Analyze content and suggest:
    - Action type: `followup`, `clarify`, `delegate`, `next`, `urgent`, `important`
 4. **Next Action Wording**: If item is vague, suggest clearer phrasing starting with action verb
 
-Present AI suggestion:
+Present AI suggestion with ALL label categories:
 ```
 AI Suggestion:
   Type: Task
   Project: Work → Kubernetes Rightsizing
-  Labels: time:30m, at:computer, TedKnudsen
+
+  Labels (suggested):
+    Time:     time:30m
+    Context:  at:computer
+    Energy:   energy:medium
+    Work:     shallow_work
+    Priority: important
+    Action:   followup
+    Person:   TedKnudsen
+
   Next action: "Review K8s resource limits with Ted"
 ```
 
@@ -74,18 +83,29 @@ Use `AskUserQuestion` with options (max 4 per question, split if needed):
 **Question 1**: "What would you like to do with this item?"
 1. **Move to project** - Move with AI-suggested project/labels
 2. **Defer (Someday)** - Move to appropriate someday project
-3. **Reference** - Move to Lists (non-actionable)
+3. **Open task** - View task URLs (web + app) to inspect further
 4. **More options...** - Show additional actions
 
 **If "More options" selected**:
-1. **Delete** - Remove from Todoist
-2. **Create new project** - Turn this into a project
-3. **Complete** - Mark as done (already handled)
-4. **Skip** - Leave in inbox for later
+1. **Reference** - Move to Lists (non-actionable)
+2. **Delete** - Remove from Todoist
+3. **Create new project** - Turn this into a project
+4. **Complete/Skip** - Mark done or leave in inbox
 
 #### D. Execute Action
 
 Based on selection:
+
+**Open task**:
+Display task URLs for user to click:
+```
+Task URLs:
+  Web: https://todoist.com/showTask?id=<task_id>
+  App: todoist://task?id=<task_id>
+
+Click to open, then return here to continue processing.
+```
+After displaying URLs, return to action selection for the same item (don't advance to next item).
 
 **Move to project**:
 1. Show AI-suggested project and labels
@@ -201,37 +221,71 @@ Analyze item content and match to user's project hierarchy:
 **Church indicators**: Faith, ministry, church activities
 → Match to Church area projects
 
-### Time Estimate Detection
+### Label Detection (MUST suggest from ALL categories)
 
-| Task Complexity | Suggested Label |
-|----------------|-----------------|
-| Quick reply, single action | `time:5m` |
+For each task, AI MUST suggest labels from these categories:
+
+#### 1. Time Estimate (required)
+
+| Task Complexity | Label |
+|----------------|-------|
+| Quick reply, single click | `time:5m` |
 | Simple task, one step | `time:15m` |
 | Review, meeting prep | `time:30m` |
 | Substantial work | `time:60m` |
 | Research, planning, deep work | `time:+90m` |
 
-### People Detection
+#### 2. Context (required)
 
-- Detect capitalized names in content
-- Match to known people labels: `MikeRyan`, `Madhu`, `SolomonDuncan`, `CharlesCooper`, `TonyRocca`, `TedKnudsen`, `DavidCisarik`, `LolaBeste`
-- Detect @ mentions from Slack
-- Detect email sender names
+- Computer/online tasks → `at:computer`
+- iPad/tablet specific → `at:ipad`
+- Physical house tasks → `house`
 
-### Context Detection
+#### 3. Energy Level (required)
 
-- Computer-related tasks → `at:computer`
-- iPad/tablet tasks → `at:ipad`
-- House/home tasks → `house`
+| Task Type | Label |
+|-----------|-------|
+| Complex decisions, creative work, deep thinking | `energy:high` |
+| Standard tasks, meetings, reviews | `energy:medium` |
+| Routine, administrative, low-stakes | `energy:low` |
 
-### Action Type Detection
+#### 4. Work Type (required)
 
-- "Follow up", "check on", "waiting for" → `followup`
-- "Clarify", "ask about", "understand" → `clarify`
-- "Assign to", "have X do" → `delegate`
-- Urgent language, deadlines → `urgent`
-- Important markers → `important`
-- Clear next step → `next`
+| Task Nature | Label |
+|-------------|-------|
+| Focused, uninterrupted, creative, strategic | `deep_work` |
+| Email, admin, quick responses, routine | `shallow_work` |
+
+#### 5. Priority (if applicable)
+
+- Time-sensitive, deadline-driven → `urgent`
+- High-impact, significant outcome → `important`
+- Can combine: `urgent` + `important` = do first
+
+#### 6. Action Type (if applicable)
+
+- Waiting on someone → `followup`
+- Need more info → `clarify`
+- Should assign to someone else → `delegate`
+- Clear next step ready → `next`
+- Needs evaluation → `review`
+
+#### 7. People (if detected)
+
+- Detect names in content: `@mentions`, capitalized names, email senders
+- Known labels: `MikeRyan`, `Madhu`, `SolomonDuncan`, `CharlesCooper`, `TonyRocca`, `TedKnudsen`, `DavidCisarik`, `LolaBeste`
+- Create new person label if name detected but no existing label
+
+#### 8. Filing (if applicable)
+
+- Should be saved to Obsidian → `to-file:obsidian`
+- Should become Jira ticket → `to-file:jira`
+
+#### 9. Life Goals (if applicable)
+
+- Leadership/management → `+LG: Lead others well`
+- Health/fitness/discipline → `+LG: Be a Tough MF`
+- Purpose/meaning → `+LG: Live with a purpose and no regrets`
 
 ### Next Action Wording
 
