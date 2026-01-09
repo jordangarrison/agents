@@ -44,6 +44,26 @@
       {
         "matcher": "mcp__todoist__search",
         "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__update-tasks",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__delete-object",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__complete-tasks",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__add-projects",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__add-tasks",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
       }
     ]
   }

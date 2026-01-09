@@ -20,6 +20,7 @@ Then run `/mcp` in Claude Code to authenticate.
 - **Add tasks** with priorities, labels, due dates
 - **Complete tasks** and track progress
 - **Search tasks** across all projects
+- **Process inbox** using GTD methodology with AI suggestions (see `/jagents:inbox-process`)
 
 ## Instructions
 
@@ -46,13 +47,32 @@ When working with tasks:
 
 ## Methodology
 
-<!-- TODO: Customize for GTD + Redeeming Your Time workflow -->
+This skill follows GTD (Getting Things Done) methodology:
 
-This skill follows productivity best practices:
-- Capture tasks quickly, process later
-- Keep tasks actionable (start with verbs)
-- Use labels/projects for organization
-- Regular reviews to stay current
+### Capture
+- Quick capture to inbox - don't organize while capturing
+- Use `/jagents:todo-add` for quick capture
+
+### Clarify & Organize
+- Process inbox regularly with `/jagents:inbox-process`
+- For each item, decide: Delete, Reference, Defer, Delegate, or Do
+- Clarify next action (start with action verb)
+- Move to appropriate project
+
+### Project Structure
+- **Active projects** under areas: Personal, Work, Home, Ventures, Church
+- **Someday projects** for deferred items: Personal Someday, Work Someday, etc.
+- **Lists** for reference material: Books, Articles, Tools, etc.
+
+### Labels
+- **Time estimates**: `time:5m`, `time:15m`, `time:30m`, `time:60m`, `time:+90m`
+- **Context**: `at:computer`, `at:ipad`, `house`
+- **Actions**: `next`, `followup`, `clarify`, `delegate`, `urgent`, `important`
+- **People**: Tag people involved for easy filtering
+
+### Review
+- Daily: Check today's tasks
+- Weekly: Process inbox, review projects, plan week ahead
 
 ## Examples
 
