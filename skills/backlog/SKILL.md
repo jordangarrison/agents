@@ -28,6 +28,11 @@ Uses the **Atlassian MCP** server for Jira operations.
 - Identify items missing descriptions or acceptance criteria
 - Flag items that need refinement
 
+### Cleanup & Closure
+- Close stale or unwanted tickets quickly via `/jagents:backlog-kill`
+- Remove clutter from backlog to improve focus
+- Use filters: stale (30+ days), old (90+ days), low-priority
+
 ### Prioritization
 - Help order backlog by business value
 - Identify blockers and dependencies

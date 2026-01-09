@@ -1,0 +1,50 @@
+{
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "Bash",
+        "hooks": [{ "type": "command", "command": "./hooks/approve-tool-results.sh" }]
+      },
+      {
+        "matcher": "Read",
+        "hooks": [{ "type": "command", "command": "./hooks/approve-tool-results.sh" }]
+      },
+      {
+        "matcher": "mcp__atlassian__get.*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__atlassian__search.*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__atlassian__lookup.*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__atlassian__fetch",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__find-.*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__get-.*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__fetch.*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__user-info",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__search",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      }
+    ]
+  }
+}
