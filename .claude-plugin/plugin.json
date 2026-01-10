@@ -9,6 +9,5 @@
   "license": "MIT",
   "keywords": ["todoist", "jira", "productivity", "gtd", "tasks"],
   "commands": "./commands/",
-  "skills": "./skills/",
-  "hooks": "./hooks/hooks.json"
+  "skills": "./skills/"
 }
