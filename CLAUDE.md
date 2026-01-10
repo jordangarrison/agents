@@ -127,6 +127,58 @@ After loading the plugin (`claude --plugin-dir .`):
 
 The `todo` skill activates automatically when you mention tasks or task management.
 
+## Plugin Development
+
+### Versioning and Cache Management
+
+**IMPORTANT**: When modifying `.claude-plugin/plugin.json`, always bump the version number to force Claude Code to reload the plugin from the updated source.
+
+Claude Code caches plugins by version number. Without a version bump, it will continue using the cached version even after changes are committed.
+
+**Version Bump Required For**:
+- Changes to `plugin.json` manifest
+- Adding/removing commands or skills
+- Modifying hooks configuration
+- Any structural plugin changes
+
+**Process**:
+1. Make your changes to plugin files
+2. Update `version` in `.claude-plugin/plugin.json` (use semantic versioning)
+3. Commit and push changes
+4. Plugin will reload with new version automatically
+
+**Example**:
+```json
+{
+  "name": "jagents",
+  "version": "0.1.1",  // Bump from 0.1.0
+  ...
+}
+```
+
+### Plugin Manifest Rules
+
+The `.claude-plugin/plugin.json` manifest has specific validation rules:
+
+- **Do NOT include** `permissions` field (not supported in manifest)
+- **Do NOT include** explicit `hooks` reference if using standard `hooks/hooks.json` (auto-loaded)
+- **Only reference** additional hook files in manifest if needed beyond the standard location
+
+**Valid Manifest Structure**:
+```json
+{
+  "name": "jagents",
+  "version": "0.1.1",
+  "description": "...",
+  "author": { "name": "..." },
+  "repository": "...",
+  "license": "MIT",
+  "keywords": [...],
+  "commands": "./commands/",
+  "skills": "./skills/"
+}
+```
+
 ## Adding New Agents
 
 ### For Interactive Use (Plugin)
