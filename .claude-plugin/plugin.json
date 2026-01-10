@@ -10,23 +10,5 @@
   "keywords": ["todoist", "jira", "productivity", "gtd", "tasks"],
   "commands": "./commands/",
   "skills": "./skills/",
-  "hooks": "./hooks/hooks.json",
-  "permissions": {
-    "allow": [
-      "WebSearch",
-      "WebFetch(domain:support.atlassian.com)",
-      "mcp__todoist__find-tasks",
-      "mcp__todoist__find-tasks-by-date",
-      "mcp__todoist__find-completed-tasks",
-      "mcp__todoist__find-projects",
-      "mcp__todoist__find-sections",
-      "mcp__todoist__find-comments",
-      "mcp__todoist__find-activity",
-      "mcp__todoist__get-overview",
-      "mcp__todoist__fetch-object",
-      "mcp__todoist__user-info",
-      "mcp__todoist__find-project-collaborators",
-      "mcp__todoist__search"
-    ]
-  }
+  "hooks": "./hooks/hooks.json"
 }
