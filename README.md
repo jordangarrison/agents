@@ -58,9 +58,10 @@ claude mcp add --transport http todoist https://ai.todoist.net/mcp
 
 ```bash
 # Add the Atlassian MCP server
-claude mcp add atlassian
+claude mcp add --transport sse atlassian https://mcp.atlassian.com/v1/sse
 
 # Inside Claude Code, authenticate with Atlassian
+# This will trigger an OAuth 2.1 browser flow
 /mcp
 ```
 

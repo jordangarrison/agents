@@ -59,7 +59,7 @@ Commands use generic names (`todo-*`) but implement with specific backends:
 | Domain | MCP Server | URL |
 |--------|-----------|-----|
 | Tasks (todo) | Doist/todoist-ai | https://ai.todoist.net/mcp |
-| Backlog (jira) | Atlassian MCP | (existing in environment) |
+| Backlog (jira) | Atlassian Remote MCP | https://mcp.atlassian.com/v1/sse |
 
 ## Development
 
@@ -93,6 +93,19 @@ claude mcp add --transport http todoist https://ai.todoist.net/mcp
 # Authenticate (run inside Claude Code)
 /mcp
 ```
+
+### Setting Up Atlassian MCP
+
+```bash
+# Add the MCP server
+claude mcp add --transport sse atlassian https://mcp.atlassian.com/v1/sse
+
+# Authenticate (run inside Claude Code)
+# This will trigger an OAuth 2.1 browser flow
+/mcp
+```
+
+Note: The Atlassian MCP server uses OAuth 2.1 authentication and requires you to log in with your Atlassian account. Access is scoped to your Jira, Confluence, and Compass permissions.
 
 ### Environment Variables
 
