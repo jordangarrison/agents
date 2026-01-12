@@ -131,19 +131,25 @@ The `todo` skill activates automatically when you mention tasks or task manageme
 
 ### Versioning and Cache Management
 
-**IMPORTANT**: When modifying `.claude-plugin/plugin.json`, always bump the version number to force Claude Code to reload the plugin from the updated source.
+**CRITICAL**: Bump the plugin version in `.claude-plugin/plugin.json` on EVERY commit that touches plugin files. This is required for changes to take effect.
 
-Claude Code caches plugins by version number. Without a version bump, it will continue using the cached version even after changes are committed.
+Claude Code caches plugins by version number. Without a version bump, it will continue using the cached version even after changes are committed and pushed.
 
-**Version Bump Required For**:
+**Version Bump Required For** (bump on EVERY push):
+- Adding/modifying commands (`commands/*.md`)
+- Adding/modifying skills (`skills/**/*.md`)
+- Modifying hooks (`hooks/hooks.json`)
 - Changes to `plugin.json` manifest
-- Adding/removing commands or skills
-- Modifying hooks configuration
-- Any structural plugin changes
+- Any file that affects plugin behavior
+
+**Semantic Versioning**:
+- `patch` (0.1.x): Bug fixes, hook permission additions, small tweaks
+- `minor` (0.x.0): New commands or skills
+- `major` (x.0.0): Breaking changes, renamed commands, removed features
 
 **Process**:
 1. Make your changes to plugin files
-2. Update `version` in `.claude-plugin/plugin.json` (use semantic versioning)
+2. **ALWAYS** bump `version` in `.claude-plugin/plugin.json` before committing
 3. Commit and push changes
 4. Plugin will reload with new version automatically
 
@@ -151,7 +157,7 @@ Claude Code caches plugins by version number. Without a version bump, it will co
 ```json
 {
   "name": "jagents",
-  "version": "0.1.1",  // Bump from 0.1.0
+  "version": "0.2.0",  // Minor bump: added weekly-review command
   ...
 }
 ```
