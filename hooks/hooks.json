@@ -30,11 +30,23 @@
         "hooks": [{ "type": "command", "command": "exit 0" }]
       },
       {
+        "matcher": "mcp__todoist__find-activity",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__find-completed-tasks",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
         "matcher": "mcp__todoist__get-.*",
         "hooks": [{ "type": "command", "command": "exit 0" }]
       },
       {
         "matcher": "mcp__todoist__fetch.*",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__fetch-object",
         "hooks": [{ "type": "command", "command": "exit 0" }]
       },
       {
@@ -63,6 +75,10 @@
       },
       {
         "matcher": "mcp__todoist__add-tasks",
+        "hooks": [{ "type": "command", "command": "exit 0" }]
+      },
+      {
+        "matcher": "mcp__todoist__update-projects",
         "hooks": [{ "type": "command", "command": "exit 0" }]
       }
     ]
