@@ -12,7 +12,11 @@
         let pkgs = nixpkgs.legacyPackages.${system};
         in {
           default = pkgs.mkShell {
-            packages = [ pkgs.bun ];
+            packages = [
+              pkgs.bun
+              pkgs.ffmpeg
+              pkgs.openai-whisper
+            ];
           };
         });
     };
