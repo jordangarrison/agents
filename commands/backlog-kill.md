@@ -1,5 +1,6 @@
 ---
 description: Interactively review and close unwanted backlog items
+argument-hint: <project> [filter] [--board <id>] [--since <date>] [--jql "<query>"] [--dry-run]
 ---
 
 # Kill Backlog Items

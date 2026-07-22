@@ -1,6 +1,6 @@
 ---
 name: todo
-description: Manage tasks and projects - create, view, complete, and organize tasks. Use when the user wants to add tasks, view their task list, mark tasks complete, or manage their tasks.
+description: Manage tasks and projects - create, view, complete, and organize tasks. This skill should be used when the user wants to add tasks, view their task list, mark tasks complete, or manage their tasks.
 ---
 
 # Task Management

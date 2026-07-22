@@ -1,6 +1,6 @@
 ---
 name: backlog
-description: Groom and prioritize your backlog - review issues, refine priorities, estimate work, and prepare items for sprints. Use when the user wants to groom their backlog, prioritize work, review upcoming items, or prepare for sprint planning.
+description: Groom and prioritize your backlog - review issues, refine priorities, estimate work, and prepare items for sprints. This skill should be used when the user wants to groom their backlog, prioritize work, review upcoming items, or prepare for sprint planning.
 ---
 
 # Backlog Grooming

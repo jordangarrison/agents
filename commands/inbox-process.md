@@ -1,5 +1,6 @@
 ---
 description: Process inbox items using GTD methodology with AI suggestions
+argument-hint: [--limit <n>] [--dry-run]
 ---
 
 # Process Inbox

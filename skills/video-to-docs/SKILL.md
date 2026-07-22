@@ -1,6 +1,6 @@
 ---
 name: video-to-docs
-description: Generate documentation from video walkthroughs. Use when given an MP4, MOV, or other video file to document an application, workflow, or process. Extracts frames and audio transcription, then synthesizes both into structured documentation. Triggers on requests like "document this video", "create docs from this walkthrough", or when a video file is provided with documentation intent.
+description: Generate documentation from video walkthroughs. This skill should be used when given an MP4, MOV, or other video file to document an application, workflow, or process. Extracts frames and audio transcription, then synthesizes both into structured documentation. Triggers on requests like "document this video", "create docs from this walkthrough", or when a video file is provided with documentation intent.
 ---
 
 # Video to Documentation

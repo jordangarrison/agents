@@ -1,5 +1,6 @@
 ---
 description: Comprehensive weekly review following GTD/Redeeming Your Time methodology
+argument-hint: [--area <name>] [--project <id>] [--quick] [--dry-run] [--limit <n>]
 ---
 
 # Weekly Review

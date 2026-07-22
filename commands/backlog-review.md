@@ -1,5 +1,6 @@
 ---
 description: Review backlog items for a project
+argument-hint: <project> [filter]
 ---
 
 # Review Backlog

@@ -1,5 +1,6 @@
 ---
 description: Start a backlog grooming session
+argument-hint: <project> [focus]
 ---
 
 # Backlog Grooming Session

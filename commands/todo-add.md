@@ -1,5 +1,6 @@
 ---
 description: Add a task
+argument-hint: <task content> [to <project>] [by <due date>] [priority]
 ---
 
 # Add Task

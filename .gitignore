@@ -27,3 +27,6 @@ result
 
 # direnv
 .direnv/
+
+# Claude Code
+.claude/settings.local.json

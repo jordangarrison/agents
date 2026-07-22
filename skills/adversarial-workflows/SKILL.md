@@ -1,6 +1,6 @@
 ---
 name: adversarial-workflows
-description: Use when orchestrating multi-agent implementation work at scale
+description: This skill should be used when orchestrating multi-agent implementation work at scale
   (large ports, migrations, mass refactors, compiler-error or test-failure
   burn-down), or when a batch of agent-written changes needs independent
   verification before merge.

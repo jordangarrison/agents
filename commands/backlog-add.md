@@ -1,5 +1,6 @@
 ---
 description: Add an item to the backlog
+argument-hint: <summary> [to <project>] [type] [priority]
 ---
 
 # Add Backlog Item

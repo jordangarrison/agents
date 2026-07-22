@@ -1,5 +1,6 @@
 ---
 description: Mark a task as complete
+argument-hint: <task name or id>
 ---
 
 # Complete Task
