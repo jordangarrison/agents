@@ -1,0 +1,45 @@
+name: Plugin version check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  version-bump:
+    name: Require version bump when plugin files change
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check plugin.json version was bumped
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="origin/${{ github.base_ref }}"
+          else
+            BASE="${{ github.event.before }}"
+            # First push to a branch (or force-created ref) has a zero SHA
+            if [ -z "$BASE" ] || ! git cat-file -e "$BASE" 2>/dev/null; then
+              BASE=$(git rev-parse HEAD^)
+            fi
+          fi
+
+          echo "Comparing $BASE..HEAD"
+          CHANGED=$(git diff --name-only "$BASE" HEAD)
+
+          if ! echo "$CHANGED" | grep -qE '^(commands/|skills/|hooks/|\.claude-plugin/)'; then
+            echo "No plugin files changed; version bump not required."
+            exit 0
+          fi
+
+          if git diff "$BASE" HEAD -- .claude-plugin/plugin.json | grep -q '^[+-].*"version"'; then
+            echo "Plugin files changed and plugin.json version was bumped. OK."
+            exit 0
+          fi
+
+          echo "::error file=.claude-plugin/plugin.json::Plugin files (commands/, skills/, hooks/, .claude-plugin/) changed without bumping the version in .claude-plugin/plugin.json. Claude Code caches plugins by version, so the change will not take effect until the version is bumped."
+          exit 1

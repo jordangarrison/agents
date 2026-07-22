@@ -158,6 +158,8 @@ After loading the plugin (`claude --plugin-dir .`):
 
 Claude Code caches plugins by version number. Without a version bump, it will continue using the cached version even after changes are committed and pushed.
 
+CI enforces this: `.github/workflows/plugin-version-check.yml` fails any push/PR that changes `commands/`, `skills/`, `hooks/`, or `.claude-plugin/` without also changing the `version` in `plugin.json`.
+
 **Version Bump Required For** (bump on EVERY push):
 - Adding/modifying commands (`commands/*.md`)
 - Adding/modifying skills (`skills/**/*.md`)
