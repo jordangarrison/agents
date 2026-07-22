@@ -11,7 +11,9 @@
  * TODO: Refine system prompt with specific GTD + Redeeming Your Time workflow
  */
 
-export const todoistAgent = {
+import type { AgentConfig } from "@agents/core";
+
+export const todoistAgent: AgentConfig = {
   name: "todoist",
   description: "Manages Todoist tasks and projects",
 

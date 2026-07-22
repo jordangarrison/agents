@@ -12,6 +12,8 @@
     "@agents/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "bun-types": "latest",
+    "typescript": "^5.0.0"
   }
 }
