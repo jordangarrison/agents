@@ -19,14 +19,27 @@ agents/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest (name: jagents)
 ├── skills/                   # Skills (auto-invoked by Claude)
-│   └── todo/
+│   ├── todo/
+│   │   └── SKILL.md
+│   ├── backlog/
+│   │   └── SKILL.md
+│   ├── video-to-docs/
+│   │   └── SKILL.md
+│   └── adversarial-workflows/
 │       └── SKILL.md
 ├── commands/                 # Slash commands (user-invoked)
 │   ├── todo-today.md        # /jagents:todo-today
 │   ├── todo-add.md          # /jagents:todo-add
-│   └── todo-complete.md     # /jagents:todo-complete
+│   ├── todo-complete.md     # /jagents:todo-complete
+│   ├── backlog-add.md       # /jagents:backlog-add
+│   ├── backlog-groom.md     # /jagents:backlog-groom
+│   ├── backlog-review.md    # /jagents:backlog-review
+│   ├── backlog-kill.md      # /jagents:backlog-kill
+│   ├── inbox-process.md     # /jagents:inbox-process
+│   └── weekly-review.md     # /jagents:weekly-review
 ├── packages/                 # SDK agents (programmatic)
 │   ├── core/
+│   ├── jira/
 │   └── todoist/
 ├── flake.nix
 └── package.json
@@ -80,8 +93,9 @@ bun install
 # Test the plugin locally
 claude --plugin-dir .
 
-# Run SDK agent
+# Run SDK agents
 bun run todoist
+bun run jira
 ```
 
 ### Setting Up Todoist MCP
@@ -119,13 +133,22 @@ Copy `.env.example` to `.env`:
 
 After loading the plugin (`claude --plugin-dir .`):
 
-- `/jagents:todo-today` - Show today's tasks
+- `/jagents:todo-today` - Show tasks due today
 - `/jagents:todo-add <task>` - Add a task
-- `/jagents:todo-complete <task>` - Complete a task
+- `/jagents:todo-complete <task>` - Mark a task as complete
+- `/jagents:backlog-add <item>` - Add an item to the backlog
+- `/jagents:backlog-groom <project>` - Start a backlog grooming session
+- `/jagents:backlog-review <project>` - Review backlog items for a project
+- `/jagents:backlog-kill <project>` - Interactively review and close unwanted backlog items
+- `/jagents:inbox-process` - Process inbox items using GTD methodology with AI suggestions
+- `/jagents:weekly-review` - Comprehensive weekly review following GTD/Redeeming Your Time methodology
 
 ### Skills (Auto-Invoked)
 
-The `todo` skill activates automatically when you mention tasks or task management.
+- `todo` - activates when you mention tasks or task management.
+- `backlog` - activates when you mention backlog grooming, prioritization, or sprint prep.
+- `video-to-docs` - activates when you provide a video file to document a workflow or app.
+- `adversarial-workflows` - activates when orchestrating multi-agent implementation work at scale.
 
 ## Plugin Development
 
@@ -157,7 +180,7 @@ Claude Code caches plugins by version number. Without a version bump, it will co
 ```json
 {
   "name": "jagents",
-  "version": "0.2.0",  // Minor bump: added weekly-review command
+  "version": "0.4.0",  // Minor bump: added new skills and commands
   ...
 }
 ```
@@ -174,7 +197,7 @@ The `.claude-plugin/plugin.json` manifest has specific validation rules:
 ```json
 {
   "name": "jagents",
-  "version": "0.1.1",
+  "version": "0.4.0",
   "description": "...",
   "author": { "name": "..." },
   "repository": "...",

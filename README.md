@@ -77,6 +77,9 @@ claude mcp add --transport sse atlassian https://mcp.atlassian.com/v1/sse
 | `/jagents:backlog-groom <project>` | Start a backlog grooming session |
 | `/jagents:backlog-review <project>` | Review backlog items |
 | `/jagents:backlog-add <item>` | Add an item to the backlog |
+| `/jagents:backlog-kill <project>` | Interactively review and close unwanted backlog items |
+| `/jagents:inbox-process` | Process inbox items using GTD methodology with AI suggestions |
+| `/jagents:weekly-review` | Comprehensive weekly review following GTD/Redeeming Your Time methodology |
 
 ### Examples
 
@@ -127,12 +130,25 @@ The `backlog` skill activates when you mention backlog grooming or Jira work:
 "What needs refinement before the sprint?"
 ```
 
+The `video-to-docs` skill activates when you provide a video file to document a
+workflow or application:
+
+```
+"Document this video walkthrough"
+"Create docs from this MP4"
+```
+
+The `adversarial-workflows` skill activates when orchestrating multi-agent
+implementation work at scale.
+
 ## Available Agents
 
 | Domain | Status | Backend |
 |--------|--------|---------|
 | Tasks (todo) | ✅ Available | Todoist |
 | Backlog (backlog) | ✅ Available | Atlassian/Jira |
+| Docs (video-to-docs) | ✅ Available | Video frames + transcription |
+| Orchestration (adversarial-workflows) | ✅ Available | Multi-agent |
 | Notes (notes) | 📋 Planned | Obsidian |
 | Git (git) | 📋 Planned | GitHub |
 
