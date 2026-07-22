@@ -3,11 +3,11 @@
     "PermissionRequest": [
       {
         "matcher": "Bash",
-        "hooks": [{ "type": "command", "command": "./hooks/approve-tool-results.sh" }]
+        "hooks": [{ "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/hooks/approve-tool-results.sh" }]
       },
       {
         "matcher": "Read",
-        "hooks": [{ "type": "command", "command": "./hooks/approve-tool-results.sh" }]
+        "hooks": [{ "type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/hooks/approve-tool-results.sh" }]
       },
       {
         "matcher": "mcp__atlassian__get.*",
