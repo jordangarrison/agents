@@ -1,8 +1,11 @@
 # Agents
 
-Personal micro agents for productivity - task management, backlog tracking, and more.
+Personal micro agents for email, task management, backlog tracking, and more.
 
-A Claude Code plugin that provides commands and skills for managing your productivity workflows.
+The repository contains portable
+[Agent Skills](https://agentskills.io/) for compatible agents, a Claude Code
+plugin adapter with additional commands, and SDK packages for automation. The
+portable skills are the canonical source and are not tied to one agent harness.
 
 ## Philosophy
 
@@ -19,13 +22,50 @@ Agents are the next evolution. Instead of configuring static tools, we're now de
 
 This repository is my personal collection of productivity agents - my "agent dotfiles." Fork it, adapt it, make it yours.
 
-## Installation
+## Install portable skills
+
+### Prerequisites
+
+- Node.js for the `skills` installer
+- A compatible local agent such as Claude Code, Codex, or Pi
+- Nix when using the repository's pinned Himalaya runtime
+
+Install the email skill globally for Claude Code, Codex, and Pi:
+
+```bash
+npx skills add jordangarrison/agents --skill email -g \
+  -a claude-code -a codex -a pi
+```
+
+The skill may activate from a natural-language email request. Invoke it
+explicitly as `$email` in Codex or `/skill:email` in Pi.
+
+The email skill requires Himalaya v1.2.0 with keyring and OAuth2 support. Run
+the tested package without installing it:
+
+```bash
+nix run github:jordangarrison/agents#himalaya -- --version
+```
+
+Or install it into the current Nix profile:
+
+```bash
+nix profile install github:jordangarrison/agents#himalaya
+```
+
+Account setup and provider-specific authentication are documented in the
+skill's [provider reference](skills/email/references/providers.md).
+
+## Install the Claude Code plugin
+
+The plugin adds the repository's Claude-specific slash commands and exposes the
+same root skills to Claude Code.
 
 ### Prerequisites
 
 - [Claude Code](https://claude.ai/code) installed
-- A Todoist account (for task management)
-- Atlassian Cloud account (for backlog grooming)
+- A Todoist account for task management
+- An Atlassian Cloud account for backlog grooming
 
 ### Install the Plugin
 
@@ -112,7 +152,16 @@ claude mcp add --transport sse atlassian https://mcp.atlassian.com/v1/sse
 /jagents:backlog-add Implement user search to PROJ
 ```
 
-### Skills (Auto-Invoked)
+### Portable Skills
+
+The `email` skill manages multiple Himalaya accounts:
+
+```
+"Check my email"
+"Any new mail?"
+"Search all inboxes for the quarterly report"
+"Draft an email to Alex"
+```
 
 The `todo` skill activates automatically when you mention tasks or task management:
 
@@ -149,17 +198,40 @@ implementation work at scale.
 | Backlog (backlog) | ✅ Available | Atlassian/Jira |
 | Docs (video-to-docs) | ✅ Available | Video frames + transcription |
 | Orchestration (adversarial-workflows) | ✅ Available | Multi-agent |
+| Email (email) | ✅ Available | Himalaya IMAP/SMTP |
 | Notes (notes) | 📋 Planned | Obsidian |
 | Git (git) | 📋 Planned | GitHub |
 
 ## Architecture
 
-This project uses a hybrid approach:
+This project uses three complementary surfaces:
 
-- **Plugin** (skills/commands): Interactive use via Claude Code CLI, uses your Claude subscription
+- **Agent Skills**: Portable interactive workflows shared by Claude Code,
+  Codex, Pi, and other compatible agents
+- **Claude Code plugin**: Claude-specific distribution and slash commands
 - **SDK packages**: Programmatic automation, uses API key (for CI/automation)
 
-Commands use generic names (`todo-*`) with swappable backends. Currently Todoist, but designed to support other task management systems in the future.
+Portable skills live in `skills/`. Harness-specific metadata belongs in
+adapter files such as `skills/<name>/agents/openai.yaml`, not in the shared
+instructions. Commands use generic names (`todo-*`) with swappable backends.
+
+## Development
+
+```bash
+# Enter the reproducible shell
+nix develop
+
+# Validate all flake outputs, including the Himalaya feature contract
+nix flake check
+
+# Validate the Claude plugin and run package tests
+claude plugin validate --strict .
+bun test
+
+# Exercise harness-local discovery
+claude --plugin-dir .
+pi --skill ./skills/email
+```
 
 ## Configuration
 

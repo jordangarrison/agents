@@ -4,29 +4,37 @@ This file provides guidance to Claude Code when working with this agents codebas
 
 ## Project Overview
 
-A personal micro agents codebase with a **hybrid architecture**:
-- **Claude Code Plugin** (skills/commands) - Interactive use via CLI, uses subscription
+A personal micro agents codebase with three complementary surfaces:
+- **Portable Agent Skills** - Shared interactive workflows for Claude Code,
+  Codex, Pi, and other Agent Skills-compatible harnesses
+- **Claude Code Plugin** - Claude-specific distribution and slash commands
 - **SDK Packages** - Programmatic automation, uses API key
 
 Each agent follows the Unix philosophy: do one thing well, compose small tools together.
 
 ## Architecture
 
-### Hybrid Structure
+### Shared Skills with Adapters
 
 ```
 agents/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin manifest (name: jagents)
-├── skills/                   # Skills (auto-invoked by Claude)
+├── skills/                   # Canonical portable Agent Skills
 │   ├── todo/
 │   │   └── SKILL.md
 │   ├── backlog/
 │   │   └── SKILL.md
 │   ├── video-to-docs/
 │   │   └── SKILL.md
-│   └── adversarial-workflows/
+│   ├── adversarial-workflows/
 │       └── SKILL.md
+│   └── email/
+│       ├── SKILL.md
+│       ├── agents/
+│       │   └── openai.yaml  # Optional Codex UI metadata
+│       └── references/
+│           └── providers.md
 ├── commands/                 # Slash commands (user-invoked)
 │   ├── todo-today.md        # /jagents:todo-today
 │   ├── todo-add.md          # /jagents:todo-add
@@ -55,7 +63,8 @@ Commands use generic names (`todo-*`) but implement with specific backends:
 
 | Use Case | Approach | Cost |
 |----------|----------|------|
-| Interactive daily use | Skills/Commands | Subscription |
+| Cross-agent interactive use | Agent Skills | Harness-dependent |
+| Claude-specific commands | Claude Code plugin | Subscription |
 | Automation/CI | SDK packages | API key |
 | Quick task operations | `/jagents:todo-*` | Subscription |
 | Headless batch jobs | `bun run todoist` | API key |
@@ -64,7 +73,8 @@ Commands use generic names (`todo-*`) but implement with specific backends:
 
 1. **One agent, one responsibility**: Each agent handles a single domain
 2. **Official MCPs first**: Use official MCP servers when available
-3. **Hybrid by default**: Support both interactive and programmatic use
+3. **Portable core, thin adapters**: Keep shared skill instructions
+   harness-neutral; place UI and distribution metadata in adapters
 4. **Interface over implementation**: Generic commands, swappable backends
 
 ### MCP Strategy
@@ -92,6 +102,12 @@ bun install
 
 # Test the plugin locally
 claude --plugin-dir .
+
+# Test the email skill with Pi
+pi --skill ./skills/email
+
+# Test the email runtime
+nix run .#himalaya -- --version
 
 # Run SDK agents
 bun run todoist
@@ -145,6 +161,8 @@ After loading the plugin (`claude --plugin-dir .`):
 
 ### Skills (Auto-Invoked)
 
+- `email` - activates for checking, searching, reading, triaging, drafting, or
+  sending email through Himalaya.
 - `todo` - activates when you mention tasks or task management.
 - `backlog` - activates when you mention backlog grooming, prioritization, or sprint prep.
 - `video-to-docs` - activates when you provide a video file to document a workflow or app.
@@ -182,7 +200,7 @@ CI enforces this: `.github/workflows/plugin-version-check.yml` fails any push/PR
 ```json
 {
   "name": "jagents",
-  "version": "0.4.0",  // Minor bump: added new skills and commands
+  "version": "0.5.0",  // Minor bump: added a new skill
   ...
 }
 ```
@@ -199,7 +217,7 @@ The `.claude-plugin/plugin.json` manifest has specific validation rules:
 ```json
 {
   "name": "jagents",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "...",
   "author": { "name": "..." },
   "repository": "...",
@@ -212,11 +230,15 @@ The `.claude-plugin/plugin.json` manifest has specific validation rules:
 
 ## Adding New Agents
 
-### For Interactive Use (Plugin)
+### For Interactive Use (Portable Skill)
 
 1. Create skill: `skills/<domain>/SKILL.md`
-2. Create commands: `commands/<domain>-*.md`
-3. Update `plugin.json` if needed
+2. Keep only `name` and trigger-rich `description` in frontmatter
+3. Keep the body harness-neutral and put detailed material in
+   `skills/<domain>/references/`
+4. Add `skills/<domain>/agents/openai.yaml` when Codex UI metadata is useful
+5. Bump the Claude plugin version because it also distributes root skills
+6. Add Claude-only commands under `commands/` only when needed
 
 ### For Automation (SDK)
 

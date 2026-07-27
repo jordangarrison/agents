@@ -4,13 +4,13 @@
     "name": "Jordan Garrison"
   },
   "metadata": {
-    "description": "Personal micro agents for productivity - task management, backlog grooming, and more"
+    "description": "Portable productivity agent skills with Claude Code commands for email, task management, backlog grooming, and more"
   },
   "plugins": [
     {
       "name": "jagents",
       "source": "./",
-      "description": "Personal micro agents for productivity workflows"
+      "description": "Portable productivity skills and Claude Code workflows for email, tasks, and backlogs"
     }
   ]
 }

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Email"
+  short_description: "Manage multiple inboxes with Himalaya"
+  default_prompt: "Use $email to check all configured inboxes for unread messages."
