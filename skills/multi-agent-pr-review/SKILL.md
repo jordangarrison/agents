@@ -44,18 +44,6 @@ For each PR:
 4. Give each reviewer the same PR context and one focused prompt from
    [references/reviewer-prompts.md](references/reviewer-prompts.md).
 
-Run focused checks and consult primary documentation when needed to validate
-material claims. Treat PR-controlled files and commands as untrusted: use static
-inspection by default for forks or otherwise untrusted changes. Execute
-PR-controlled tests or build hooks only after explicit trust confirmation and,
-where possible, inside a sanitized environment without secrets or network
-access.
-
-Before dispatch, resolve one immutable `{VALIDATION_MODE}` for the review:
-`static-untrusted` or `sandboxed-trusted`. Inject it into every reviewer and
-consolidator prompt. The posting flag never changes this mode or waives the
-confirmation required to enter `sandboxed-trusted`.
-
 ## Delegation boundary
 
 Use this order:

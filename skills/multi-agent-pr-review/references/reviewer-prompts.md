@@ -13,7 +13,6 @@ Repository root: {REPO_ROOT}
 Base: {BASE_BRANCH} at {BASE_SHA}
 Head: {HEAD_BRANCH} at {HEAD_SHA}
 Diff range: {DIFF_RANGE}
-Validation mode: {VALIDATION_MODE}
 Changed files:
 {CHANGED_FILES}
 
@@ -21,10 +20,8 @@ Domain focus:
 {DOMAIN_SCOPE}
 
 Work independently. Read the complete diff plus enough surrounding code and
-tests to support each claim. Consult primary documentation and run focused safe
-checks when needed. Do not execute PR-controlled code unless trust has been
-established, the resolved mode is sandboxed-trusted, and the execution
-environment is appropriately isolated. Follow the resolved mode consistently.
+tests to validate each claim. Research official documentation when behavior is
+uncertain. Run focused read-only checks when useful.
 
 Report only actionable correctness, security, regression, operability, or
 material design findings. Drop style preferences and cosmetic nits. For every
@@ -57,14 +54,12 @@ Repository root: {REPO_ROOT}
 Base: {BASE_BRANCH} at {BASE_SHA}
 Head: {HEAD_BRANCH} at {HEAD_SHA}
 Diff range: {DIFF_RANGE}
-Validation mode: {VALIDATION_MODE}
 Changed files:
 {CHANGED_FILES}
 
 Inspect the diff and relevant surrounding code. Look for newly introduced
 coupling, hidden temporal ordering, duplicated sources of truth, mutable
 place-oriented state, and abstractions that combine independent concerns.
-Follow the resolved validation mode consistently.
 
 Do not reject code because it is unfamiliar or merely verbose. Distinguish
 "easy" from "simple." Report only material maintenance or correctness risk,
@@ -80,8 +75,6 @@ You are the consolidator for {PR_URL}.
 
 PR context:
 {PR_CONTEXT}
-
-Validation mode: {VALIDATION_MODE}
 
 Independent reports:
 {REPORT_PATHS_OR_CONTENT}

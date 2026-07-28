@@ -219,7 +219,7 @@ CI enforces this: `.github/workflows/plugin-version-check.yml` fails any push/PR
 ```json
 {
   "name": "jagents",
-  "version": "0.6.0",  // Minor bump: added new skills
+  "version": "0.6.1",  // Patch bump: refined review workflows
   ...
 }
 ```
