@@ -1,6 +1,6 @@
 ---
 name: sre-review
-description: Post or bump a pull request in the Flocasts daily SRE review thread in #infra-private. Use when the user asks to submit a PR for SRE review, post it in the daily thread, or add the approved review-status reactions.
+description: "Post or bump a pull request in the Flocasts daily SRE review thread in #infra-private. Use when the user asks to submit a PR for SRE review, post it in the daily thread, or add the approved review-status reactions."
 ---
 
 # SRE review thread

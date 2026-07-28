@@ -30,6 +30,10 @@ Verdict rules:
 - `REQUEST_CHANGES`: demonstrated introduced bug, security gap, broken
   bootstrap, data risk, or contract break.
 
+For a PR authored by the current user, replace an otherwise-`APPROVE` verdict
+with `COMMENT` before preview. Explain that no blocking findings were found.
+Never silently change the verdict after sign-off.
+
 Before preview, verify inline paths are changed and line anchors occur in the
 current patch. Limit inline comments to actionable findings. Summary must stand
 on its own.
@@ -40,7 +44,7 @@ Write a JSON payload outside the repository:
 
 ```json
 {
-  "event": "COMMENT",
+  "event": "<SIGNED_OFF_EVENT>",
   "body": "Complete review body",
   "commit_id": "<signed-off-head-sha>",
   "comments": [
@@ -53,6 +57,10 @@ Write a JSON payload outside the repository:
   ]
 }
 ```
+
+Replace `<SIGNED_OFF_EVENT>` with the signed-off verdict and validate it is
+exactly `APPROVE`, `COMMENT`, or `REQUEST_CHANGES`. The self-authored-PR rule
+must already have been applied and previewed.
 
 Post only after sign-off:
 

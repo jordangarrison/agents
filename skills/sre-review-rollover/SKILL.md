@@ -14,8 +14,13 @@ Slack message.
 - Channel: `#infra-private`
 - Channel ID: `CF7SPS45P`
 - Time zone: `America/Chicago`
+- Thread marker: a same-day bot-authored message containing both
+  `review thread` and `:thread:` (case-insensitive)
 - Cache root:
   `${XDG_CACHE_HOME:-$HOME/.cache}/jagents/sre-review`
+- Thread cache: `thread.json` containing `{date, thread_ts, permalink}`; valid
+  only when `date` is today's Central-time `YYYY-MM-DD` and `thread_ts` is a
+  plausible Slack timestamp
 - Rollover reply:
   `[rollover from <ORIGINAL_PERMALINK|yesterday>] <description>: <PR URL>`
 
@@ -29,7 +34,7 @@ email in `identity.json`. Do not embed personal identifiers.
 ## Flow
 
 1. Find yesterday's latest bot review thread using Central-time dates and the
-   same marker as `sre-review`.
+   marker above.
 2. Read replies and keep only current-user GitHub PR posts.
 3. Prefer connected GitHub metadata, falling back to `gh pr view`. Eligible PRs
    are open, non-draft, and not approved. Skip merged and closed PRs.

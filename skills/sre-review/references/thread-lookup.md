@@ -6,8 +6,8 @@ today's `YYYY-MM-DD` and contain a plausible Slack timestamp.
 On cache miss:
 
 1. Read roughly one workday of channel history.
-2. Keep same-day messages whose text contains `review thread`.
-3. Require `:thread:` in the text or bot-message metadata.
+2. Keep same-day bot-authored messages whose text contains `review thread`.
+3. Require literal `:thread:` in the text.
 4. Pick the latest timestamp.
 5. Store only date, parent timestamp, and permalink.
 

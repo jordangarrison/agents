@@ -11,14 +11,29 @@ for fixes.
 
 ## Prepare
 
-1. Require `agent-browser`. If unavailable, use `npx agent-browser` when
-   permitted or explain the missing runtime.
-2. Read the installed CLI guide with `agent-browser skills get core`; it is the
-   authority for the installed version.
+1. Resolve one invocation and use it for every command in this workflow:
+
+   ```bash
+   if command -v agent-browser >/dev/null 2>&1; then
+     AGENT_BROWSER=(agent-browser)
+   elif command -v npx >/dev/null 2>&1; then
+     AGENT_BROWSER=(npx --yes agent-browser)
+   else
+     printf 'agent-browser and npx are unavailable.\n' >&2
+     exit 69
+   fi
+   ```
+
+   Run the remaining commands in the same shell session. If the chosen
+   invocation fails, including from an incompatible NixOS binary, stop and
+   explain the runtime problem; never fall through to a different bare command.
+2. Read the installed CLI guide with
+   `"${AGENT_BROWSER[@]}" skills get core`; it is authoritative for the
+   installed version.
 3. Derive an isolated session:
 
    ```bash
-   SESSION="$(agent-browser session id --scope worktree --prefix browser-walkthrough)"
+   SESSION="$("${AGENT_BROWSER[@]}" session id --scope worktree --prefix browser-walkthrough)"
    ```
 
 4. Choose output paths inside the project or a temporary directory. Never put
@@ -29,9 +44,9 @@ for fixes.
 Open the starting page, then begin recording before the tested interactions:
 
 ```bash
-agent-browser --session "$SESSION" open <url>
-agent-browser --session "$SESSION" record start <walkthrough.webm>
-agent-browser --session "$SESSION" snapshot -i
+"${AGENT_BROWSER[@]}" --session "$SESSION" open <url>
+"${AGENT_BROWSER[@]}" --session "$SESSION" record start <walkthrough.webm>
+"${AGENT_BROWSER[@]}" --session "$SESSION" snapshot -i
 ```
 
 Use the snapshot-and-ref loop:
@@ -43,7 +58,7 @@ Use the snapshot-and-ref loop:
 5. Capture screenshots at meaningful before/after states:
 
    ```bash
-   agent-browser --session "$SESSION" screenshot <step.png>
+   "${AGENT_BROWSER[@]}" --session "$SESSION" screenshot <step.png>
    ```
 
 Prefer condition-based waits over fixed sleeps. Use the authentication vault or
@@ -56,8 +71,8 @@ when safe and within scope.
 Always stop recording, including after a failed flow:
 
 ```bash
-agent-browser --session "$SESSION" record stop
-agent-browser --session "$SESSION" close
+"${AGENT_BROWSER[@]}" --session "$SESSION" record stop
+"${AGENT_BROWSER[@]}" --session "$SESSION" close
 ```
 
 ## GIF conversion

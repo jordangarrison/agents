@@ -34,6 +34,3 @@ result
 # Installer-managed runtime state
 skills/sre-review/.cache.json
 skills/sre-review-rollover/.identity.json
-**/.cache.json
-**/.identity.json
-**/thread.json
