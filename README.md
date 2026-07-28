@@ -55,9 +55,10 @@ source of truth; do not edit installed copies.
 Skills may activate from natural-language requests. Invoke one explicitly as
 `$email` or `$multi-agent-pr-review` in Codex.
 
-For a static-only fast review, pass `--skip-validation` with
-`$multi-agent-pr-review`. This skips optional test commands and documentation
-lookup, but retains diff/head checks, preview, and explicit posting sign-off.
+Pass `--skip-user-confirmation` with `$multi-agent-pr-review` to authorize
+posting the completed review without pausing for final GitHub posting sign-off.
+The flag does not reduce review validation, waive other action approvals, or
+skip diff/head and inline-anchor checks.
 
 The email skill requires Himalaya v1.2.0 with keyring and OAuth2 support. Run
 the tested package without installing it:

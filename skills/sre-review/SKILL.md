@@ -56,7 +56,7 @@ Reaction writes also require exact target resolution and preview.
 - Add `travolta` only when the post has no review-status reaction, GitHub shows
   no review activity, and enough time has passed to make the request stale.
 - For SRE-thread reviews run through `multi-agent-pr-review`, add `eye-twitch`
-  to the PR reply when review begins. After the signed-off GitHub review posts,
+  to the PR reply when review begins. After the authorized GitHub review posts,
   add exactly one matching verdict reaction.
 - Never add a verdict reaction before its GitHub review exists.
 - Never use thread reactions for ad-hoc PR URLs not found in this thread.

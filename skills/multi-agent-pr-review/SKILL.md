@@ -15,11 +15,13 @@ Accept one or more `https://github.com/<owner>/<repo>/pull/<number>` URLs.
 Accept optional per-PR domain hints, omitted reviewers, or added specialist
 roles.
 
-Accept `--skip-validation` as an explicit fast-review flag. It skips optional
-test commands, focused runtime checks, and external documentation lookup. It
-does not skip diff inspection, introduced-versus-pre-existing attribution,
-blocking-claim evidence, inline-anchor validation, PR state/head rechecks,
-preview, or per-PR posting sign-off.
+Accept `--skip-user-confirmation` as explicit authorization to post the completed
+reviews for the PR URLs in that invocation without pausing for final GitHub
+posting confirmation or per-PR sign-off. It waives no other approval:
+PR-controlled-code trust confirmation, Herdr fallback consent, and every other
+action-specific confirmation remain mandatory. It never skips review validation,
+blocking-claim verification, inline-anchor validation, preview construction, or
+PR state/head rechecks.
 
 Skip merged PRs. Skip drafts unless explicitly requested. Do not approve the
 current user's own PR.
@@ -32,8 +34,9 @@ creating a GitHub review with inline comments.
 
 For each PR:
 
-1. Record URL, author, state, draft status, base, head, head SHA, title, body,
-   changed files, and diff.
+1. Record URL, author, state, draft status, repository root, base branch and
+   SHA, head branch and SHA, exact diff range, title, body, changed files, and
+   diff.
 2. Establish whether findings are introduced by the PR. Pre-existing problems
    are not blocking regressions.
 3. Choose one to four domain specialists based on the diff. Always add an
@@ -41,20 +44,26 @@ For each PR:
 4. Give each reviewer the same PR context and one focused prompt from
    [references/reviewer-prompts.md](references/reviewer-prompts.md).
 
-Set `{VALIDATION_POLICY}` in every prompt:
+Run focused checks and consult primary documentation when needed to validate
+material claims. Treat PR-controlled files and commands as untrusted: use static
+inspection by default for forks or otherwise untrusted changes. Execute
+PR-controlled tests or build hooks only after explicit trust confirmation and,
+where possible, inside a sanitized environment without secrets or network
+access.
 
-- default: run focused read-only checks and consult primary documentation when
-  needed to validate material claims;
-- with `--skip-validation`: use static diff and surrounding-code evidence only,
-  run no validation commands or documentation lookup, and label findings as
-  statically reviewed but not independently validated.
+Before dispatch, resolve one immutable `{VALIDATION_MODE}` for the review:
+`static-untrusted` or `sandboxed-trusted`. Inject it into every reviewer and
+consolidator prompt. The posting flag never changes this mode or waives the
+confirmation required to enter `sandboxed-trusted`.
 
 ## Delegation boundary
 
 Use this order:
 
 1. Native subagents or task delegation supported by the active harness. Launch
-   all phase-one reviewers in parallel.
+   the maximum number of phase-one reviewers concurrently. When child capacity
+   is smaller than the reviewer set, dispatch the remaining roles in
+   capacity-bounded waves using fresh native subagents.
 2. Herdr only when the user explicitly requested Herdr or confirms the fallback
    after being told native delegation is unavailable.
 3. Otherwise stop and explain that real multi-agent execution is unavailable.
@@ -72,8 +81,9 @@ have been captured and consolidated.
 
 ### Phase one: independent reports
 
-Launch specialists and the simplicity reviewer together. Require each report to
-include:
+Run every selected specialist plus the simplicity reviewer through native
+delegation, using the capacity-bounded waves above when necessary. Never
+substitute a serial parent pass for a reviewer. Require each report to include:
 
 - only correctness, security, regression, operability, or material design risks;
 - file and line evidence;
@@ -94,13 +104,11 @@ The parent independently verifies every proposed blocking claim and every
 inline anchor. An inline line must be part of the current diff hunk. Move
 unanchorable findings into the summary.
 
-With `--skip-validation`, limit this verification to the current diff and
-surrounding source. Do not run commands or consult external documentation.
-
 ## Preview and sign-off
 
 Re-fetch PR state and head SHA immediately before preview. If the head moved,
-refresh the diff and revalidate affected findings.
+regather context, rerun all phase-one reviewers against the new SHA, and launch
+a fresh consolidator before preview.
 
 For each PR separately, show:
 
@@ -109,11 +117,14 @@ For each PR separately, show:
 - every inline comment with path, side, line, and full body;
 - current head SHA.
 
-When `--skip-validation` was used, state that prominently in the review body
-and preview.
+Without `--skip-user-confirmation`, require explicit per-PR sign-off before
+posting. Apply requested edits and show the complete preview again. Never
+batch-sign-off.
 
-Require explicit per-PR sign-off before posting. Apply requested edits and show
-the complete preview again. Never batch-sign-off or post without preview.
+With `--skip-user-confirmation`, still construct the complete preview but do not
+pause for approval. Treat the explicit flag as posting authorization only for
+the PR URLs supplied in that invocation, then continue directly to the final
+state/head check and post.
 
 ## Post
 
@@ -122,7 +133,8 @@ comments. Otherwise use the `gh api` payload described in
 [references/consolidation-and-posting.md](references/consolidation-and-posting.md).
 
 Re-check state and head SHA once more before posting. Stop if merged, closed, or
-changed since sign-off. Report the posted review URL or API result.
+changed since the signed-off or flag-authorized preview. Report the posted
+review URL or API result.
 
 This skill has no Slack behavior. SRE companion skills own thread lookup and
 reactions.

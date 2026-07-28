@@ -32,7 +32,7 @@ Verdict rules:
 
 For a PR authored by the current user, replace an otherwise-`APPROVE` verdict
 with `COMMENT` before preview. Explain that no blocking findings were found.
-Never silently change the verdict after sign-off.
+Never silently change the verdict after preview authorization.
 
 Before preview, verify inline paths are changed and line anchors occur in the
 current patch. Limit inline comments to actionable findings. Summary must stand
@@ -44,9 +44,9 @@ Write a JSON payload outside the repository:
 
 ```json
 {
-  "event": "<SIGNED_OFF_EVENT>",
+  "event": "<AUTHORIZED_EVENT>",
   "body": "Complete review body",
-  "commit_id": "<signed-off-head-sha>",
+  "commit_id": "<authorized-head-sha>",
   "comments": [
     {
       "path": "path/to/file",
@@ -58,11 +58,12 @@ Write a JSON payload outside the repository:
 }
 ```
 
-Replace `<SIGNED_OFF_EVENT>` with the signed-off verdict and validate it is
-exactly `APPROVE`, `COMMENT`, or `REQUEST_CHANGES`. The self-authored-PR rule
-must already have been applied and previewed.
+Replace `<AUTHORIZED_EVENT>` with the previewed verdict and validate it is
+exactly `APPROVE`, `COMMENT`, or `REQUEST_CHANGES`. Authorization is either
+explicit final sign-off or the invocation-scoped `--skip-user-confirmation`
+flag. The self-authored-PR rule must already have been applied and previewed.
 
-Post only after sign-off:
+Post only after one of those authorization paths and the final state/head check:
 
 ```bash
 gh api --method POST \

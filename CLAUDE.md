@@ -42,7 +42,9 @@ agents/
 │   ├── browser-testing-walkthrough/
 │   │   ├── SKILL.md
 │   │   ├── agents/openai.yaml
-│   │   └── scripts/webm-to-gif.sh
+│   │   └── scripts/
+│   │       ├── run-agent-browser.sh
+│   │       └── webm-to-gif.sh
 │   ├── sre-review/
 │   ├── sre-review-worktrees/
 │   └── sre-review-rollover/

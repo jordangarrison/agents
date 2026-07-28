@@ -56,11 +56,13 @@ Read [references/worktree-setup.md](references/worktree-setup.md), then:
 1. Group kept PRs by repository.
 2. Verify each main clone and any existing destination worktree are clean.
 3. Fetch and fast-forward its detected remote default branch.
-4. Fetch each PR head and create or refresh its worktree.
-5. Copy existing `.env`, `.env.local`, and `.envrc` files from the main clone
-   only when the destination is absent. If a destination exists, compare it and
-   stop on differences; never overwrite it. These files remain local and
-   untracked.
+4. Resolve each expected PR head SHA, fetch that exact commit, create or refresh
+   its worktree, and verify worktree `HEAD` equals the expected SHA.
+5. Never copy `.env`, `.env.local`, or `.envrc` into a fork or otherwise
+   untrusted PR worktree. For a trusted same-repository branch, preview existing
+   source filenames, verify each destination is ignored, and require separate
+   opt-in before copying only absent files with restrictive permissions. Stop
+   on any differing destination.
 6. When `.envrc` was copied and `direnv` is available, preview the exact
    `direnv allow <worktree-path>` command and require separate confirmation
    before running it.
@@ -69,7 +71,7 @@ Read [references/worktree-setup.md](references/worktree-setup.md), then:
 Different repositories may run in parallel. Sequence worktree mutations within
 one repository.
 
-Stop for dirty clones or worktrees, conflicting environment files, unresolved
-fork refs, conflicting worktree paths, or more than ten kept PRs without
-renewed confirmation. When setup completes, offer `multi-agent-pr-review` for
-the selected PR URLs.
+Stop for dirty clones or worktrees, untrusted environment-copy requests,
+conflicting environment files, unresolved PR SHAs, conflicting worktree paths,
+or more than ten kept PRs without renewed confirmation. When setup completes,
+offer `multi-agent-pr-review` for the selected PR URLs.
