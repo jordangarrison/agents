@@ -1,0 +1,4 @@
+interface:
+  display_name: "Browser testing walkthrough"
+  short_description: "Record reproducible browser QA evidence"
+  default_prompt: "Use $browser-testing-walkthrough to test this flow, record a WebM, and report bugs without changing application code."

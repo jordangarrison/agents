@@ -1,0 +1,4 @@
+interface:
+  display_name: "SRE review worktrees"
+  short_description: "Prepare isolated worktrees from the SRE thread"
+  default_prompt: "Use $sre-review-worktrees to preview worktrees for today's unreviewed SRE-thread pull requests."

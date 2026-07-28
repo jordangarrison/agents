@@ -1,0 +1,4 @@
+interface:
+  display_name: "Multi-agent PR review"
+  short_description: "Consolidate parallel expert PR reviews"
+  default_prompt: "Use $multi-agent-pr-review to review the supplied pull request URLs without posting until I approve each preview."

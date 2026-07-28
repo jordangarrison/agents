@@ -1,0 +1,4 @@
+interface:
+  display_name: "SRE review thread"
+  short_description: "Post PRs to the daily SRE review thread"
+  default_prompt: "Use $sre-review to preview my current PR for the Flocasts SRE review thread."

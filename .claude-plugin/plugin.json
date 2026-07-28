@@ -1,6 +1,6 @@
 {
   "name": "jagents",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Portable productivity agent skills and Claude Code commands for email, Todoist, Jira, and more",
   "author": {
     "name": "Jordan Garrison"

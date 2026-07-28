@@ -28,13 +28,24 @@ agents/
 │   ├── video-to-docs/
 │   │   └── SKILL.md
 │   ├── adversarial-workflows/
-│       └── SKILL.md
-│   └── email/
-│       ├── SKILL.md
-│       ├── agents/
-│       │   └── openai.yaml  # Optional Codex UI metadata
-│       └── references/
-│           └── providers.md
+│   │   └── SKILL.md
+│   ├── email/
+│   │   ├── SKILL.md
+│   │   ├── agents/
+│   │   │   └── openai.yaml  # Optional Codex UI metadata
+│   │   └── references/
+│   │       └── providers.md
+│   ├── multi-agent-pr-review/
+│   │   ├── SKILL.md
+│   │   ├── agents/openai.yaml
+│   │   └── references/
+│   ├── browser-testing-walkthrough/
+│   │   ├── SKILL.md
+│   │   ├── agents/openai.yaml
+│   │   └── scripts/webm-to-gif.sh
+│   ├── sre-review/
+│   ├── sre-review-worktrees/
+│   └── sre-review-rollover/
 ├── commands/                 # Slash commands (user-invoked)
 │   ├── todo-today.md        # /jagents:todo-today
 │   ├── todo-add.md          # /jagents:todo-add
@@ -167,6 +178,12 @@ After loading the plugin (`claude --plugin-dir .`):
 - `backlog` - activates when you mention backlog grooming, prioritization, or sprint prep.
 - `video-to-docs` - activates when you provide a video file to document a workflow or app.
 - `adversarial-workflows` - activates when orchestrating multi-agent implementation work at scale.
+- `multi-agent-pr-review` - dispatches parallel PR reviewers, consolidates
+  findings, and previews each GitHub review before posting.
+- `browser-testing-walkthrough` - records manual QA through `agent-browser`.
+- `sre-review` - posts PRs to the daily Flocasts SRE review thread.
+- `sre-review-worktrees` - prepares worktrees for unreviewed thread PRs.
+- `sre-review-rollover` - rolls eligible stale requests into today's thread.
 
 ## Plugin Development
 
@@ -200,7 +217,7 @@ CI enforces this: `.github/workflows/plugin-version-check.yml` fails any push/PR
 ```json
 {
   "name": "jagents",
-  "version": "0.5.0",  // Minor bump: added a new skill
+  "version": "0.6.0",  // Minor bump: added new skills
   ...
 }
 ```

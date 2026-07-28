@@ -1,0 +1,4 @@
+interface:
+  display_name: "SRE review rollover"
+  short_description: "Roll stale PR requests into today's SRE thread"
+  default_prompt: "Use $sre-review-rollover to preview eligible PRs from yesterday before posting anything."

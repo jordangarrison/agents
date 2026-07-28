@@ -30,15 +30,30 @@ This repository is my personal collection of productivity agents - my "agent dot
 - A compatible local agent such as Claude Code, Codex, or Pi
 - Nix when using the repository's pinned Himalaya runtime
 
-Install the email skill globally for Claude Code, Codex, and Pi:
+Install a skill globally for every supported agent:
 
 ```bash
-npx skills add jordangarrison/agents --skill email -g \
-  -a claude-code -a codex -a pi
+npx skills add jordangarrison/agents -g -a '*' --skill email -y
 ```
 
-The skill may activate from a natural-language email request. Invoke it
-explicitly as `$email` in Codex or `/skill:email` in Pi.
+Install the portable review workflows together:
+
+```bash
+npx skills add jordangarrison/agents -g -a '*' \
+  --skill multi-agent-pr-review \
+  --skill browser-testing-walkthrough \
+  --skill sre-review \
+  --skill sre-review-worktrees \
+  --skill sre-review-rollover \
+  -y
+```
+
+The installer keeps a canonical managed copy and symlinks compatible agent
+directories to it by default. Repository `skills/` directories remain the
+source of truth; do not edit installed copies.
+
+Skills may activate from natural-language requests. Invoke one explicitly as
+`$email` or `$multi-agent-pr-review` in Codex.
 
 The email skill requires Himalaya v1.2.0 with keyring and OAuth2 support. Run
 the tested package without installing it:
@@ -190,6 +205,12 @@ workflow or application:
 The `adversarial-workflows` skill activates when orchestrating multi-agent
 implementation work at scale.
 
+The review skills support:
+
+- parallel, preview-before-posting GitHub pull request review;
+- recorded browser walkthroughs using `agent-browser`;
+- Flocasts SRE review thread posting, worktree setup, and rollover.
+
 ## Available Agents
 
 | Domain | Status | Backend |
@@ -200,7 +221,9 @@ implementation work at scale.
 | Orchestration (adversarial-workflows) | ✅ Available | Multi-agent |
 | Email (email) | ✅ Available | Himalaya IMAP/SMTP |
 | Notes (notes) | 📋 Planned | Obsidian |
-| Git (git) | 📋 Planned | GitHub |
+| Git review (multi-agent-pr-review) | ✅ Available | GitHub |
+| Browser QA (browser-testing-walkthrough) | ✅ Available | agent-browser |
+| SRE review workflow | ✅ Available | GitHub + Slack connector |
 
 ## Architecture
 
