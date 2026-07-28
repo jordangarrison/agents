@@ -17,9 +17,11 @@ Changed files:
 Domain focus:
 {DOMAIN_SCOPE}
 
+Validation policy:
+{VALIDATION_POLICY}
+
 Work independently. Read the complete diff plus enough surrounding code and
-tests to validate each claim. Research official documentation when behavior is
-uncertain. Run focused read-only checks when useful.
+tests to support each claim. Follow the validation policy exactly.
 
 Report only actionable correctness, security, regression, operability, or
 material design findings. Drop style preferences and cosmetic nits. For every
@@ -53,6 +55,9 @@ Head: {HEAD_BRANCH} at {HEAD_SHA}
 Changed files:
 {CHANGED_FILES}
 
+Validation policy:
+{VALIDATION_POLICY}
+
 Inspect the diff and relevant surrounding code. Look for newly introduced
 coupling, hidden temporal ordering, duplicated sources of truth, mutable
 place-oriented state, and abstractions that combine independent concerns.
@@ -72,6 +77,9 @@ You are the consolidator for {PR_URL}.
 PR context:
 {PR_CONTEXT}
 
+Validation policy:
+{VALIDATION_POLICY}
+
 Independent reports:
 {REPORT_PATHS_OR_CONTENT}
 
@@ -79,6 +87,9 @@ Read every report and the current diff. Deduplicate overlapping findings.
 Discard nits, unsupported claims, and pre-existing issues presented as
 regressions. Preserve dissent when evidence remains ambiguous. Blocking status
 requires an actual regression with reproducible evidence.
+
+When validation was skipped, preserve that limitation in the review body and
+do not upgrade a statically supported claim to independently validated.
 
 Return exactly the structure documented in
 references/consolidation-and-posting.md. Do not post to GitHub.

@@ -15,6 +15,12 @@ Accept one or more `https://github.com/<owner>/<repo>/pull/<number>` URLs.
 Accept optional per-PR domain hints, omitted reviewers, or added specialist
 roles.
 
+Accept `--skip-validation` as an explicit fast-review flag. It skips optional
+test commands, focused runtime checks, and external documentation lookup. It
+does not skip diff inspection, introduced-versus-pre-existing attribution,
+blocking-claim evidence, inline-anchor validation, PR state/head rechecks,
+preview, or per-PR posting sign-off.
+
 Skip merged PRs. Skip drafts unless explicitly requested. Do not approve the
 current user's own PR.
 
@@ -34,6 +40,14 @@ For each PR:
    independent simplicity reviewer.
 4. Give each reviewer the same PR context and one focused prompt from
    [references/reviewer-prompts.md](references/reviewer-prompts.md).
+
+Set `{VALIDATION_POLICY}` in every prompt:
+
+- default: run focused read-only checks and consult primary documentation when
+  needed to validate material claims;
+- with `--skip-validation`: use static diff and surrounding-code evidence only,
+  run no validation commands or documentation lookup, and label findings as
+  statically reviewed but not independently validated.
 
 ## Delegation boundary
 
@@ -80,6 +94,9 @@ The parent independently verifies every proposed blocking claim and every
 inline anchor. An inline line must be part of the current diff hunk. Move
 unanchorable findings into the summary.
 
+With `--skip-validation`, limit this verification to the current diff and
+surrounding source. Do not run commands or consult external documentation.
+
 ## Preview and sign-off
 
 Re-fetch PR state and head SHA immediately before preview. If the head moved,
@@ -91,6 +108,9 @@ For each PR separately, show:
 - full review body;
 - every inline comment with path, side, line, and full body;
 - current head SHA.
+
+When `--skip-validation` was used, state that prominently in the review body
+and preview.
 
 Require explicit per-PR sign-off before posting. Apply requested edits and show
 the complete preview again. Never batch-sign-off or post without preview.
